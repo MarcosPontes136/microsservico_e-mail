@@ -1,5 +1,7 @@
 package com.microsservico_email.Controller;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import com.microsservico_email.Service.EmailService;
 import com.microsservico_email.dto.EmailDTO;
 import com.microsservico_email.models.EmailModel;
 
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,7 +28,7 @@ public class EmailController {
 	private EmailService emailService;
 
 	@PostMapping(value = "/contato")
-	public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDTO emailDTO){
+	public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) throws UnsupportedEncodingException, MessagingException{
 		EmailModel emailModel = new EmailModel();
 		BeanUtils.copyProperties(emailDTO, emailModel);
 		emailService.sendEmail(emailModel);
